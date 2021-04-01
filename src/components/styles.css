@@ -6,11 +6,21 @@
 .row {
   display: flex;
   flex-direction: row;
+  gap: 1px;
 }
 
 .rectangle-column {
   height: 1000px;
   width: 300px;
+  border-style: solid;
+  border-color: #ffefe1;
+  border-radius: 5% 5% 10% 10%;
+  border-width: 10px;
+}
+
+.rectangle-pet {
+  height: 100px;
+  width: 30px;
   border-style: solid;
   border-color: #ffefe1;
   border-width: 10px;
@@ -27,4 +37,5 @@ header {
 
 h1 {
   color: lightblue;
+  text-align: center;
 }
