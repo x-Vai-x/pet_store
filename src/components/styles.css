@@ -1,0 +1,30 @@
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.rectangle-column {
+  height: 1000px;
+  width: 300px;
+  border-style: solid;
+  border-color: #ffefe1;
+  border-width: 10px;
+}
+
+header {
+  height: 100px;
+  width: 300px;
+  background-color: purple;
+  border-radius: 0% 0% 30% 30%;
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  color: lightblue;
+}
