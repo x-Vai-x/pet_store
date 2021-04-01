@@ -19,11 +19,14 @@
 }
 
 .rectangle-pet {
+  width: 100px;
   height: 100px;
-  width: 30px;
   border-style: solid;
   border-color: #ffefe1;
   border-width: 10px;
+  color: red;
+  display: flex;
+  justify-content: center;
 }
 
 header {
@@ -35,7 +38,19 @@ header {
   justify-content: center;
 }
 
-h1 {
+header h1 {
   color: lightblue;
+}
+
+h1 {
+  color: pink;
+}
+
+h2 {
+  color: blue;
+}
+
+h1,
+h2 {
   text-align: center;
 }
