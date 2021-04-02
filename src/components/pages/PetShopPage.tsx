@@ -1,23 +1,60 @@
 import Stock from "../partials/Stock";
+import { useDispatch } from "react-redux";
 import { useSelector } from "../../redux/rootReducer";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import "../styles.css";
 
 import PetInfo from "../partials/PetInfo";
 import PetDialog from "../dialogs/PetDialog";
 
+import React, { useEffect, useState } from "react";
+import { Pet } from "../../dataTypes";
+
+import { updatePet } from "../../redux/slices/petsSlice";
+
 export default function PetShopPage() {
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const {
-    unstockedPets,
-    mondayStockedPets,
-    tuesdayStockedPets,
-    wednesdayStockedPets,
-    thursdayStockedPets,
-    fridayStockedPets,
-  } = useSelector((state) => state.pets);
+  const { pets } = useSelector((state) => state.pets);
+  const dispatch = useDispatch();
 
-  function onDragEnd() {}
+  const [unstockedPets, setUnstockedPets] = useState<Pet[]>([]);
+  const [mondayStockedPets, setMondayStockedPets] = useState<Pet[]>([]);
+  const [tuesdayStockedPets, setTuesdayStockedPets] = useState<Pet[]>([]);
+  const [wednesdayStockedPets, setWednesdayStockedPets] = useState<Pet[]>([]);
+  const [thursdayStockedPets, setThursdayStockedPets] = useState<Pet[]>([]);
+  const [fridayStockedPets, setFridayStockedPets] = useState<Pet[]>([]);
+
+  useEffect(() => {
+    pets.forEach((pet) => {
+      switch (pet.dayInStock) {
+        case "Monday":
+          setMondayStockedPets([...mondayStockedPets, pet]);
+          break;
+        case "Tuesday":
+          setTuesdayStockedPets([...tuesdayStockedPets, pet]);
+          break;
+        case "Wednesday":
+          setWednesdayStockedPets([...wednesdayStockedPets, pet]);
+          break;
+        case "Thursday":
+          setThursdayStockedPets([...thursdayStockedPets, pet]);
+          break;
+        case "Friday":
+          setFridayStockedPets([...fridayStockedPets, pet]);
+          break;
+
+        case "None":
+          setUnstockedPets([...unstockedPets, pet]);
+      }
+    });
+  }, [pets]);
+  function onDragEnd(res: DropResult) {
+    const pet = pets.find((p) => p.id === Number(res.draggableId));
+
+    if (!pet || !res.destination) return;
+
+    dispatch(updatePet({ ...pet, dayInStock: res.destination.droppableId }));
+  }
 
   return (
     <>

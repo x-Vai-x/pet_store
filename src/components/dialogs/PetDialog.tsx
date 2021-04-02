@@ -11,11 +11,13 @@ import {
   TextField,
 } from "@material-ui/core";
 import { addPet } from "../../redux/slices/petsSlice";
+import { useSelector } from "../../redux/rootReducer";
 
 export default function PetDialog() {
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({ pet_owner: "" });
   const dispatch = useDispatch();
+  const { pets } = useSelector((state) => state.pets);
 
   function handleClickOpen() {
     setOpen(true);
@@ -25,9 +27,12 @@ export default function PetDialog() {
     setOpen(false);
   }
 
-  function submitForm() {
+  function submitForm(e: any) {
+    e.preventDefault();
     const { pet_owner } = values;
-    dispatch(addPet({ petOwner: pet_owner, dayInStock: null }));
+    dispatch(
+      addPet({ id: pets.length, petOwner: pet_owner, dayInStock: "None" })
+    );
     setOpen(false);
   }
 
