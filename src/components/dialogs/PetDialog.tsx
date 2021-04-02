@@ -27,7 +27,7 @@ export default function PetDialog() {
 
   function submitForm() {
     const { pet_owner } = values;
-    dispatch(addPet(pet_owner));
+    dispatch(addPet({ petOwner: pet_owner, dayInStock: null }));
     setOpen(false);
   }
 
