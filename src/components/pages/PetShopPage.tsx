@@ -25,6 +25,13 @@ export default function PetShopPage() {
   const [fridayStockedPets, setFridayStockedPets] = useState<Pet[]>([]);
 
   useEffect(() => {
+    setUnstockedPets([]);
+    setMondayStockedPets([]);
+    setTuesdayStockedPets([]);
+    setWednesdayStockedPets([]);
+    setThursdayStockedPets([]);
+    setFridayStockedPets([]);
+
     pets.forEach((pet) => {
       switch (pet.dayInStock) {
         case "Monday":
