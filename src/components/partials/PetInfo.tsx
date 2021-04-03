@@ -18,7 +18,10 @@ export default function PetInfo({ pet, index }: IProps) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          Pet owner: {pet.petOwner}
+          <div className="column">
+            Pet owner: {pet.petOwner}
+            {pet.petImage ? <img src={pet.petImage} /> : <p> No Image</p>}
+          </div>
         </div>
       )}
     </Draggable>

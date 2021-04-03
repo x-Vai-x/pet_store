@@ -12,12 +12,18 @@ import {
 } from "@material-ui/core";
 import { addPet } from "../../redux/slices/petsSlice";
 import { useSelector } from "../../redux/rootReducer";
+import { Pet } from "../../dataTypes";
 
 export default function PetDialog() {
   const [open, setOpen] = useState(false);
-  const [values, setValues] = useState({ pet_owner: "" });
-  const dispatch = useDispatch();
   const { pets } = useSelector((state) => state.pets);
+  const [values, setValues] = useState<Pet>({
+    id: pets.length,
+    petOwner: "",
+    petImage: undefined,
+    dayInStock: "None",
+  });
+  const dispatch = useDispatch();
 
   function handleClickOpen() {
     setOpen(true);
@@ -29,16 +35,25 @@ export default function PetDialog() {
 
   function submitForm(e: any) {
     e.preventDefault();
-    const { pet_owner } = values;
-    dispatch(
-      addPet({ id: pets.length, petOwner: pet_owner, dayInStock: "None" })
-    );
+    dispatch(addPet(values));
     setOpen(false);
   }
 
   function handleInputChange(e: any) {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+    const { name, value, type } = e.target;
+    if (type === "file") {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        setValues({
+          ...values,
+          [name]: e.target?.result?.toString() ?? undefined,
+        });
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setValues({ ...values, [name]: value });
+    }
   }
 
   return (
@@ -53,12 +68,27 @@ export default function PetDialog() {
             <TextField
               autoFocus
               margin="dense"
-              name="pet_owner"
+              name="petOwner"
               onChange={handleInputChange}
               label="Pet owner name"
               type="text"
               fullWidth
             />
+            <Button variant="contained" component="label">
+              Upload Image
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                name="petImage"
+                onChange={handleInputChange}
+              />
+            </Button>
+            {values.petImage ? (
+              <img src={values.petImage}></img>
+            ) : (
+              <p> No Image</p>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
