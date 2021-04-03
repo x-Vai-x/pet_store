@@ -10,7 +10,7 @@ interface IProps {
 
 export default function PetInfo({ pet, index }: IProps) {
   return (
-    <Draggable draggableId={index.toString()} index={index}>
+    <Draggable draggableId={pet.id.toString()} index={index}>
       {(provided) => (
         <div
           className="rectangle-pet"
