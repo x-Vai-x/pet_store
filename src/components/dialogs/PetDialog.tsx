@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, shallowEqual } from "react-redux";
 import { Add } from "@material-ui/icons";
 import {
   IconButton,
@@ -16,7 +16,8 @@ import { Pet } from "../../dataTypes";
 
 export default function PetDialog() {
   const [open, setOpen] = useState(false);
-  const { pets } = useSelector((state) => state.pets);
+  const { pets } = useSelector((state) => state.pets, shallowEqual);
+
   const initialValues = {
     id: pets.length,
     petOwner: "",

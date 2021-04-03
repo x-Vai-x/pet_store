@@ -1,5 +1,5 @@
 import Stock from "../partials/Stock";
-import { useDispatch } from "react-redux";
+import { useDispatch, shallowEqual } from "react-redux";
 import { useSelector } from "../../redux/rootReducer";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import "../styles.css";
@@ -14,7 +14,7 @@ import { updatePet } from "../../redux/slices/petsSlice";
 
 export default function PetShopPage() {
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const { pets } = useSelector((state) => state.pets);
+  const { pets } = useSelector((state) => state.pets, shallowEqual);
   const dispatch = useDispatch();
 
   const [unstockedPets, setUnstockedPets] = useState<Pet[]>([]);
@@ -34,6 +34,7 @@ export default function PetShopPage() {
     setThursdayStockedPets(pets.filter((pet) => pet.dayInStock === "Thursday"));
     setFridayStockedPets(pets.filter((pet) => pet.dayInStock === "Friday"));
   }, [pets]);
+
   function onDragEnd(res: DropResult) {
     const pet = pets.find((p) => p.id === Number(res.draggableId));
 
