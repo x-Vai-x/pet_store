@@ -17,12 +17,13 @@ import { Pet } from "../../dataTypes";
 export default function PetDialog() {
   const [open, setOpen] = useState(false);
   const { pets } = useSelector((state) => state.pets);
-  const [values, setValues] = useState<Pet>({
+  const initialValues = {
     id: pets.length,
     petOwner: "",
     petImage: undefined,
     dayInStock: "None",
-  });
+  };
+  const [values, setValues] = useState<Pet>(initialValues);
   const dispatch = useDispatch();
 
   function handleClickOpen() {
@@ -31,12 +32,16 @@ export default function PetDialog() {
 
   function handleClose() {
     setOpen(false);
+    setValues(initialValues);
   }
 
   function submitForm(e: any) {
     e.preventDefault();
+
     dispatch(addPet(values));
     setOpen(false);
+
+    setValues(initialValues);
   }
 
   function handleInputChange(e: any) {
@@ -52,7 +57,7 @@ export default function PetDialog() {
 
       reader.readAsDataURL(e.target.files[0]);
     } else {
-      setValues({ ...values, [name]: value });
+      setValues({ ...values, [name]: value, id: pets.length });
     }
   }
 

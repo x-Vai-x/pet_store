@@ -25,35 +25,14 @@ export default function PetShopPage() {
   const [fridayStockedPets, setFridayStockedPets] = useState<Pet[]>([]);
 
   useEffect(() => {
-    setUnstockedPets([]);
-    setMondayStockedPets([]);
-    setTuesdayStockedPets([]);
-    setWednesdayStockedPets([]);
-    setThursdayStockedPets([]);
-    setFridayStockedPets([]);
-
-    pets.forEach((pet) => {
-      switch (pet.dayInStock) {
-        case "Monday":
-          setMondayStockedPets([...mondayStockedPets, pet]);
-          break;
-        case "Tuesday":
-          setTuesdayStockedPets([...tuesdayStockedPets, pet]);
-          break;
-        case "Wednesday":
-          setWednesdayStockedPets([...wednesdayStockedPets, pet]);
-          break;
-        case "Thursday":
-          setThursdayStockedPets([...thursdayStockedPets, pet]);
-          break;
-        case "Friday":
-          setFridayStockedPets([...fridayStockedPets, pet]);
-          break;
-
-        case "None":
-          setUnstockedPets([...unstockedPets, pet]);
-      }
-    });
+    setUnstockedPets(pets.filter((pet) => pet.dayInStock === "None"));
+    setMondayStockedPets(pets.filter((pet) => pet.dayInStock === "Monday"));
+    setTuesdayStockedPets(pets.filter((pet) => pet.dayInStock === "Tuesday"));
+    setWednesdayStockedPets(
+      pets.filter((pet) => pet.dayInStock === "Wednesday")
+    );
+    setThursdayStockedPets(pets.filter((pet) => pet.dayInStock === "Thursday"));
+    setFridayStockedPets(pets.filter((pet) => pet.dayInStock === "Friday"));
   }, [pets]);
   function onDragEnd(res: DropResult) {
     const pet = pets.find((p) => p.id === Number(res.draggableId));
@@ -77,7 +56,7 @@ export default function PetShopPage() {
                 {(provided) => (
                   <div {...provided.droppableProps} ref={provided.innerRef}>
                     {unstockedPets.map((pet, i) => (
-                      <PetInfo key={i} pet={pet} index={i} />
+                      <PetInfo key={pet.id} pet={pet} index={i} />
                     ))}
                     {provided.placeholder}
                   </div>

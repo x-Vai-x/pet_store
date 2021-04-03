@@ -23,7 +23,7 @@ export default function Stock({ day, pets }: IProps) {
           {provided.placeholder}
 
           {pets.map((pet, i) => (
-            <PetInfo pet={pet} index={i} />
+            <PetInfo key={pet.id} pet={pet} index={i} />
           ))}
         </div>
       )}
